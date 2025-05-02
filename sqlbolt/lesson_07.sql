@@ -23,4 +23,3 @@ FROM
   buildings AS bld
 LEFT JOIN 
   employees AS emp ON bld.building_name = emp.building;
-
