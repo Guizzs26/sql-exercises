@@ -99,6 +99,13 @@ GROUP BY o.order_id, o.total_amount;
 
 
 -- 10. Find the average order amount per customer only among those who have ordered at least 3 different products.
+SELECT 
+    c.name,
+    ROUND(AVG(o.total_amount), 2) AS avg_amount,
+    COUNT(DISTINCT oi.product_name)
+FROM orders o
+INNER JOIN customers c ON o.customer_id = c.customer_id
+INNER JOIN order_items oi ON o.order_id = oi.order_id
+GROUP BY c.name
+HAVING COUNT(DISTINCT oi.product_name) >= 3;
 
-
--- Challenge. For each product, calculate what percentage it represents of the total sales value (considering all orders).
