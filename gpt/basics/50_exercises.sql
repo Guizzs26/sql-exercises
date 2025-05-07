@@ -5,7 +5,6 @@ ORDER BY price DESC
 LIMIT 10;
 
 
-
 -- 2. Find the total amount of sales per product category, sorting from highest to lowest, 
 -- and display only categories with sales over R$5,000.
 SELECT
@@ -22,7 +21,6 @@ HAVING
   SUM(sl.price * sl.quantity) > 5000
 ORDER BY  
   total_amount_per_category DESC;
-
 
 
 -- 3. Identify customers who made purchases in at least 3 different months during the year 2023.
@@ -43,7 +41,6 @@ ORDER BY
   distinct_months DESC, c.name ASC;
 
 
-
 -- 4. Return the products that have never been sold, sorted by decreasing price.
 SELECT 
 	p.name,
@@ -56,7 +53,6 @@ WHERE
 	isl.product_id IS NULL
 ORDER BY
 	p.price DESC;
-
 
 
 -- 5. Find the customer who spent the highest amount on a single purchase and show which product
@@ -85,7 +81,6 @@ WHERE s.sale_id IN (
 ORDER BY 
   unique_sale_value DESC
 LIMIT 1;
-
 
 
 -- 6. List the number of sales per month, but exclude months with fewer than 3 sales.
