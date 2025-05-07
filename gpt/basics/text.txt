@@ -1,0 +1,290 @@
+The basics folder is intended to store exercises on the following topics:
+
+Queries with: 
+- AS 
+- WHERE 
+- Comparison operators
+- Logical operators
+- LIKE
+- BETWEEN
+- INNER JOIN
+- LEFT JOIN
+- RIGHT JOIN 
+- ON
+- IN
+- ORDER BY
+- LIMIT 
+- OFFSET
+- Aggregrate functions
+- GROUP BY
+- HAVING
+
+
+The tables used were:
+
+CREATE TABLE products (
+    product_id SERIAL PRIMARY KEY,
+    name TEXT NOT NULL,
+    category TEXT NOT NULL,
+    price NUMERIC(10, 2) NOT NULL,
+    stock INTEGER NOT NULL
+);
+
+
+CREATE TABLE customers (
+    customer_id SERIAL PRIMARY KEY,
+    name TEXT NOT NULL,
+    email TEXT UNIQUE NOT NULL,
+    city TEXT,
+    state CHAR(2),
+    registration_date DATE DEFAULT CURRENT_DATE
+);
+
+
+CREATE TABLE sales (
+    sale_id SERIAL PRIMARY KEY,
+    customer_id INTEGER NOT NULL,
+    sale_date DATE NOT NULL,
+    total_value NUMERIC(10, 2) NOT NULL,
+
+    FOREIGN KEY (customer_id) REFERENCES customers(customer_id)
+);
+
+
+CREATE TABLE sale_items (
+    item_id SERIAL PRIMARY KEY,
+    sale_id INTEGER NOT NULL,
+    product_id INTEGER NOT NULL,
+    quantity INTEGER NOT NULL,
+    unit_price NUMERIC(10, 2) NOT NULL,
+
+    FOREIGN KEY (sale_id) REFERENCES sales(sale_id),
+    FOREIGN KEY (product_id) REFERENCES products(product_id)
+);
+
+With this data:
+
+INSERT INTO products (name, category, price, stock) VALUES
+    ('Galaxy S22 Smartphone', 'Electronics', 3999.99, 45),
+    ('Dell Inspiron Laptop', 'Computing', 4599.90, 22),
+    ('LG 55" Smart TV', 'Electronics', 2799.00, 18),
+    ('Nike Air Sneakers', 'Footwear', 499.90, 65),
+    ('Philips Blender', 'Home Appliances', 159.90, 34),
+    ('Brastemp Frost Free Fridge', 'Home Appliances', 3499.00, 12),
+    ('Ralph Lauren Polo Shirt', 'Clothing', 299.90, 48),
+    ('Double Box Bed', 'Furniture', 1899.00, 8),
+    ('3-Seat Sofa', 'Furniture', 2199.90, 5),
+    ('JBL Headphones', 'Electronics', 199.90, 72),
+    ('Logitech Gaming Mouse', 'Computing', 249.90, 38),
+    ('Mechanical Keyboard', 'Computing', 379.90, 25),
+    ('Split Air Conditioner', 'Home Appliances', 1599.00, 7),
+    ('Espresso Coffee Maker', 'Home Appliances', 699.90, 15),
+    ('Samsung 24" Monitor', 'Computing', 899.90, 20),
+    ('Executive Backpack', 'Accessories', 189.90, 32),
+    ('Imported Perfume', 'Cosmetics', 329.90, 27),
+    ('Office Chair', 'Furniture', 599.90, 14),
+    ('Tramontina Cookware Set', 'Utensils', 499.90, 18),
+    ('Mountain Bike', 'Sports', 1299.90, 9),
+    ('Smartwatch', 'Electronics', 899.90, 22),
+    ('Bestseller Book', 'Books', 49.90, 85),
+    ('Towel Set', 'Home', 129.90, 42),
+    ('Orthopedic Mattress', 'Furniture', 1799.90, 6),
+    ('Electric Fryer', 'Home Appliances', 389.90, 28),
+    ('Hair Dryer', 'Beauty', 159.90, 31),
+    ('Travel Suitcase', 'Accessories', 249.90, 19),
+    ('Adidas Soccer Cleats', 'Sports', 349.90, 24),
+    ('Plate and Cutlery Set', 'Utensils', 299.90, 16),
+    ('Multifunction Printer', 'Computing', 899.90, 12),
+    ('Taiff Hair Straightener', 'Beauty', 189.90, 22),
+    ('Acoustic Guitar', 'Musical Instruments', 599.90, 8),
+    ('Microwave Oven', 'Home Appliances', 499.90, 17),
+    ('Ceiling Fan', 'Home Appliances', 299.90, 13),
+    ('Living Room Rug', 'Home', 199.90, 21),
+    ('Double Bed Sheet Set', 'Home', 259.90, 29),
+    ('Sandwich Maker', 'Home Appliances', 99.90, 33),
+    ('Inline Skates', 'Sports', 279.90, 15),
+    ('Complete Makeup Kit', 'Cosmetics', 299.90, 19),
+    ('Electric Grill', 'Home Appliances', 349.90, 11),
+    ('Bluetooth Speaker', 'Electronics', 249.90, 28),
+    ('King Comforter', 'Home', 289.90, 17),
+    ('Samsung Tablet', 'Electronics', 1599.90, 14),
+    ('PlayStation 5 Console', 'Electronics', 4499.90, 6),
+    ('DJI Mini Drone', 'Electronics', 3299.90, 5),
+    ('National Perfume', 'Cosmetics', 129.90, 38),
+    ('Water Purifier', 'Home Appliances', 599.90, 10),
+    ('Levis Jeans', 'Clothing', 249.90, 45),
+    ('Digital Scale', 'Health', 89.90, 26),
+    ('Vertical Vacuum Cleaner', 'Home Appliances', 459.90, 12);
+
+
+
+INSERT INTO customers (name, email, city, state, registration_date) VALUES
+	('João Silva', 'joao.silva@email.com', 'São Paulo', 'SP', '2023-01-15'),
+	('Maria Santos', 'maria.santos@email.com', 'Rio de Janeiro', 'RJ', '2023-01-18'),
+	('Pedro Oliveira', 'pedro.oliveira@email.com', 'Belo Horizonte', 'MG', '2023-01-22'),
+	('Ana Costa', 'ana.costa@email.com', 'Salvador', 'BA', '2023-01-28'),
+	('Carlos Souza', 'carlos.souza@email.com', 'Brasília', 'DF', '2023-02-03'),
+	('Juliana Lima', 'juliana.lima@email.com', 'Curitiba', 'PR', '2023-02-10'),
+	('Roberto Pereira', 'roberto.pereira@email.com', 'Porto Alegre', 'RS', '2023-02-15'),
+	('Fernanda Gomes', 'fernanda.gomes@email.com', 'Recife', 'PE', '2023-02-22'),
+	('Ricardo Almeida', 'ricardo.almeida@email.com', 'Fortaleza', 'CE', '2023-03-01'),
+	('Patricia Moreira', 'patricia.moreira@email.com', 'Manaus', 'AM', '2023-03-08'),
+	('Lucas Ferreira', 'lucas.ferreira@email.com', 'Goiânia', 'GO', '2023-03-15'),
+	('Amanda Ribeiro', 'amanda.ribeiro@email.com', 'Belém', 'PA', '2023-03-22'),
+	('Marcelo Santos', 'marcelo.santos@email.com', 'Florianópolis', 'SC', '2023-04-01'),
+	('Camila Rodrigues', 'camila.rodrigues@email.com', 'Vitória', 'ES', '2023-04-08'),
+	('Eduardo Martins', 'eduardo.martins@email.com', 'São Luís', 'MA', '2023-04-15'),
+	('Beatriz Costa', 'beatriz.costa@email.com', 'Natal', 'RN', '2023-04-22'),
+	('Gustavo Lima', 'gustavo.lima@email.com', 'Teresina', 'PI', '2023-05-01'),
+	('Larissa Oliveira', 'larissa.oliveira@email.com', 'Campo Grande', 'MS', '2023-05-08'),
+	('Fernando Sousa', 'fernando.sousa@email.com', 'João Pessoa', 'PB', '2023-05-15'),
+	('Mariana Silva', 'mariana.silva@email.com', 'Maceió', 'AL', '2023-05-22'),
+	('Leonardo Azevedo', 'leonardo.azevedo@email.com', 'Aracaju', 'SE', '2023-06-01'),
+	('Cristina Oliveira', 'cristina.oliveira@email.com', 'Cuiabá', 'MT', '2023-06-08'),
+	('Rodrigo Alves', 'rodrigo.alves@email.com', 'Porto Velho', 'RO', '2023-06-15'),
+	('Isabela Castro', 'isabela.castro@email.com', 'Boa Vista', 'RR', '2023-06-22'),
+	('Paulo Mendes', 'paulo.mendes@email.com', 'Palmas', 'TO', '2023-07-01'),
+	('Letícia Pereira', 'leticia.pereira@email.com', 'Rio Branco', 'AC', '2023-07-08'),
+	('Thiago Carvalho', 'thiago.carvalho@email.com', 'Macapá', 'AP', '2023-07-15'),
+	('Vanessa Barbosa', 'vanessa.barbosa@email.com', 'Campinas', 'SP', '2023-07-22'),
+	('Rafael Ferreira', 'rafael.ferreira@email.com', 'Niterói', 'RJ', '2023-08-01'),
+	('Carolina Martins', 'carolina.martins@email.com', 'Uberlândia', 'MG', '2023-08-08'),
+	('Alexandre Dias', 'alexandre.dias@email.com', 'Feira de Santana', 'BA', '2023-08-15'),
+	('Bianca Lima', 'bianca.lima@email.com', 'Ribeirão Preto', 'SP', '2023-08-22'),
+	('Marcio Gomes', 'marcio.gomes@email.com', 'Londrina', 'PR', '2023-09-01'),
+	('Tatiana Melo', 'tatiana.melo@email.com', 'Caxias do Sul', 'RS', '2023-09-08'),
+	('Victor Santos', 'victor.santos@email.com', 'Olinda', 'PE', '2023-09-15'),
+	('Renata Costa', 'renata.costa@email.com', 'Caucaia', 'CE', '2023-09-22'),
+	('Diego Silveira', 'diego.silveira@email.com', 'Ananindeua', 'PA', '2023-10-01'),
+	('Simone Almeida', 'simone.almeida@email.com', 'Joinville', 'SC', '2023-10-08'),
+	('Bruno Moraes', 'bruno.moraes@email.com', 'Vila Velha', 'ES', '2023-10-15'),
+	('Aline Souza', 'aline.souza@email.com', 'Imperatriz', 'MA', '2023-10-22'),
+	('Leandro Castro', 'leandro.castro@email.com', 'Mossoró', 'RN', '2023-11-01'),
+	('Flávia Ribeiro', 'flavia.ribeiro@email.com', 'Parnaíba', 'PI', '2023-11-08'),
+	('Henrique Lopes', 'henrique.lopes@email.com', 'Dourados', 'MS', '2023-11-15'),
+	('Natália Ferreira', 'natalia.ferreira@email.com', 'Campina Grande', 'PB', '2023-11-22'),
+	('Guilherme Teixeira', 'guilherme.teixeira@email.com', 'Arapiraca', 'AL', '2023-12-01'),
+	('Carla Oliveira', 'carla.oliveira@email.com', 'Itabaiana', 'SE', '2023-12-08'),
+	('Marcos Lima', 'marcos.lima@email.com', 'Várzea Grande', 'MT', '2023-12-15'),
+	('Daniela Costa', 'daniela.costa@email.com', 'Ji-Paraná', 'RO', '2023-12-22'),
+	('Sérgio Pereira', 'sergio.pereira@email.com', 'Rorainópolis', 'RR', '2024-01-01'),
+	('Luciana Santos', 'luciana.santos@email.com', 'Araguaína', 'TO', '2024-01-08');
+
+
+
+INSERT INTO vendas (cliente_id, data_venda, valor_total) VALUES
+	(1, '2023-03-10', 4499.89),
+	(2, '2023-03-12', 329.90),
+	(3, '2023-03-15', 5498.90),
+	(4, '2023-03-18', 199.90),
+	(5, '2023-03-20', 3998.00),
+	(6, '2023-03-25', 849.80),
+	(7, '2023-04-01', 1599.00),
+	(8, '2023-04-05', 499.90),
+	(9, '2023-04-10', 1099.80),
+	(10, '2023-04-15', 699.90),
+	(11, '2023-04-20', 379.90),
+	(12, '2023-04-25', 2799.00),
+	(13, '2023-05-01', 449.80),
+	(14, '2023-05-05', 3499.00),
+	(15, '2023-05-10', 599.90),
+	(16, '2023-05-15', 189.90),
+	(17, '2023-05-20', 1799.90),
+	(18, '2023-05-25', 389.90),
+	(19, '2023-06-01', 899.90),
+	(20, '2023-06-05', 679.80),
+	(21, '2023-06-10', 599.90),
+	(22, '2023-06-15', 99.80),
+	(23, '2023-06-20', 1799.90),
+	(24, '2023-06-25', 159.90),
+	(25, '2023-07-01', 499.90),
+	(26, '2023-07-05', 899.90),
+	(27, '2023-07-10', 189.90),
+	(28, '2023-07-15', 499.90),
+	(29, '2023-07-20', 299.90),
+	(30, '2023-07-25', 1299.90),
+	(31, '2023-08-01', 899.90),
+	(32, '2023-08-05', 149.70),
+	(33, '2023-08-10', 599.90),
+	(34, '2023-08-15', 499.90),
+	(35, '2023-08-20', 299.90),
+	(36, '2023-08-25', 779.70),
+	(37, '2023-09-01', 99.90),
+	(38, '2023-09-05', 839.70),
+	(39, '2023-09-10', 599.90),
+	(40, '2023-09-15', 349.90),
+	(41, '2023-09-20', 249.90),
+	(42, '2023-09-25', 579.80),
+	(43, '2023-10-01', 1599.90),
+	(44, '2023-10-05', 4499.90),
+	(45, '2023-10-10', 3299.90),
+	(46, '2023-10-15', 259.80),
+	(47, '2023-10-20', 599.90),
+	(48, '2023-10-25', 499.80),
+	(49, '2023-11-01', 89.90),
+	(50, '2023-11-05', 919.80);
+
+
+
+INSERT INTO itens_venda (venda_id, produto_id, quantidade, preco_unitario) VALUES
+	(1, 44, 1, 4499.89),
+	(2, 17, 1, 329.90),
+	(3, 2, 1, 4599.90),
+	(3, 10, 3, 199.90),
+	(4, 10, 1, 199.90),
+	(5, 1, 1, 3999.99),
+	(6, 15, 1, 899.90),
+	(7, 7, 3, 299.90),
+	(8, 4, 1, 499.90),
+	(9, 11, 3, 249.90),
+	(9, 37, 1, 99.90),
+	(10, 14, 1, 699.90),
+	(11, 12, 1, 379.90),
+	(12, 3, 1, 2799.00),
+	(13, 47, 2, 249.90),
+	(14, 6, 1, 3499.00),
+	(15, 33, 1, 499.90),
+	(15, 37, 1, 99.90),
+	(16, 16, 1, 189.90),
+	(17, 24, 1, 1799.90),
+	(18, 25, 1, 389.90),
+	(19, 15, 1, 899.90),
+	(20, 38, 3, 99.90),
+	(20, 47, 1, 249.90),
+	(21, 18, 1, 599.90),
+	(22, 22, 2, 49.90),
+	(23, 24, 1, 1799.90),
+	(24, 5, 1, 159.90),
+	(25, 4, 1, 499.90),
+	(26, 26, 1, 159.90),
+	(26, 30, 1, 899.90),
+	(27, 31, 1, 189.90),
+	(28, 19, 1, 499.90),
+	(29, 29, 1, 299.90),
+	(30, 20, 1, 1299.90),
+	(31, 21, 1, 899.90),
+	(32, 22, 3, 49.90),
+	(33, 32, 1, 599.90),
+	(34, 33, 1, 499.90),
+	(35, 35, 1, 199.90),
+	(35, 48, 1, 89.90),
+	(36, 36, 3, 259.90),
+	(37, 37, 1, 99.90),
+	(38, 39, 1, 299.90),
+	(38, 33, 1, 499.90),
+	(38, 48, 1, 89.90),
+	(39, 40, 1, 349.90),
+	(39, 38, 1, 99.90),
+	(39, 48, 1, 89.90),
+	(40, 40, 1, 349.90),
+	(41, 41, 1, 249.90),
+	(42, 36, 2, 259.90),
+	(42, 48, 1, 89.90),
+	(43, 43, 1, 1599.90),
+	(44, 44, 1, 4499.90),
+	(45, 45, 1, 3299.90),
+	(46, 46, 2, 129.90),
+	(47, 47, 1, 599.90),
+	(48, 47, 2, 249.90),
+	(49, 49, 1, 89.90),
+	(50, 50, 2, 459.90);

@@ -1,0 +1,1 @@
+## ChatGPT Solved Exercises
