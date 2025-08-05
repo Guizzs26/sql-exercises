@@ -23,7 +23,7 @@ You write queries directly in the browser, and the system checks the output agai
 
 | Difficulty | Solved / Total | Status          |
 |------------|----------------|-----------------|
-| Easy       | 16 / 16        | ⏳ Completed✅  |
+| Easy       | 16 / 16        | Completed✅     |
 | Medium     | 0 /  X         | ❓ Unknown      |
 | Hard       | 0 /  X         | ❓ Unknown      |
 
